@@ -12,6 +12,8 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import NavBar from '@/components/layout/NavBar'
 import { ThemeProvider } from "@/components/theme-provider"
+import Container from '@/components/Container'
+import { Toaster } from 'sonner'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -42,10 +44,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             enableSystem
             disableTransitionOnChange
             >
+              <Toaster/>
             <main className='flex flex-col min-h-screen bg-secondary'>
               <NavBar />
               <section className='grow'>
-                {children}
+                <Container>
+                  {children}
+                </Container>
               </section>
             </main>
           </ThemeProvider>

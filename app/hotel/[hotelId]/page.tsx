@@ -1,0 +1,26 @@
+import { getHotelById } from "@/actions/getHotelById";
+import AddHotelForm from "@/components/hotel/AddHotelForm";
+import { auth } from "@clerk/nextjs/server";
+
+interface HotelPageProps{
+    params: Promise<{
+        hotelId: string
+    }>
+}
+
+const Hotel = async({params}: HotelPageProps) => {
+    const { hotelId } = await params;
+    const hotel = await getHotelById(hotelId);
+    const { userId } = await auth();
+
+    if(!userId) return <div>Not authenticated...</div>
+
+    if(hotel && hotel.userId !== userId) return <div>Acces denied...</div>
+
+    return(<div>
+        <AddHotelForm hotel={hotel}/>
+        </div>
+    );
+}
+
+export default Hotel
